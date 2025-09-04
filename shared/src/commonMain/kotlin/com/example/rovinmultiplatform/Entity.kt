@@ -14,7 +14,7 @@ data class Photo(
     val camera: PhotoCamera,
     @SerialName("img_src") val imgSrc: String,
     @SerialName("earth_date") val earthDate: LocalDate,
-    val rover: Rover
+    val rover: PhotoRoverData
 )
 
 @Serializable
@@ -26,16 +26,12 @@ data class PhotoCamera(
 )
 
 @Serializable
-data class Rover(
+data class PhotoRoverData(
     val id: Int,
     val name: String,
     @SerialName("landing_date") val landingDate: LocalDate,
     @SerialName("launch_date") val launchDate: LocalDate,
-    val status: String = "active",
-    @SerialName("max_sol") val maxSol: Int,
-    @SerialName("max_date") val maxDate: LocalDate,
-    @SerialName("total_photos") val totalPhotos: Int = 0,
-    val cameras: List<RoverCamera>
+    val status: String = "active"
 )
 
 @Serializable
