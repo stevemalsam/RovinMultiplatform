@@ -1,6 +1,8 @@
 package com.example.rovinmultiplatform.network
 
 import com.example.rovinmultiplatform.JsonResponse
+import com.example.rovinmultiplatform.Platform
+import com.example.rovinmultiplatform.getPlatform
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -21,7 +23,7 @@ class MarsRoverApi {
             })
         }
         install(ApiKeyPlugin) {
-            apiKey = "DEMO_KEY" // temporary key for testing purposes
+            apiKey = getPlatform().nasaApiKey
         }
     }
 
