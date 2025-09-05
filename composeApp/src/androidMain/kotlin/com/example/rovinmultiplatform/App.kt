@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.rovinmultiplatform.core.model.Photo
 import com.example.rovinmultiplatform.theme.AppTheme
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel

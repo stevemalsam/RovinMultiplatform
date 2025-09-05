@@ -1,8 +1,8 @@
-package com.example.rovinmultiplatform
+package com.example.rovinmultiplatform.core.model
 
 import kotlinx.datetime.LocalDate
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
 
 @Serializable
 data class JsonResponse(val photos: List<Photo>)

@@ -1,6 +1,6 @@
 package com.example.rovinmultiplatform.network
 
-import com.example.rovinmultiplatform.JsonResponse
+import com.example.rovinmultiplatform.core.model.JsonResponse
 import com.example.rovinmultiplatform.Platform
 import com.example.rovinmultiplatform.getPlatform
 import io.ktor.client.HttpClient

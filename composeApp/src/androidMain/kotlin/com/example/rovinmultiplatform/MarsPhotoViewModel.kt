@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.rovinmultiplatform.core.model.Photo
 import kotlinx.coroutines.launch
 
 class MarsPhotoViewModel(private val sdk: MarsRoverSDK) : ViewModel() {
