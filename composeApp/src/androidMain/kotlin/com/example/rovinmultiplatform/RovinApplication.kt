@@ -10,7 +10,7 @@ class RovinApplication: Application() {
 
         startKoin {
             androidContext(this@RovinApplication)
-            modules(appModule)
+            modules(androidAppModule)
         }
     }
 }

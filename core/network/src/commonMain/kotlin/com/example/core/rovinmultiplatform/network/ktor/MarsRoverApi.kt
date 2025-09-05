@@ -1,8 +1,8 @@
-package com.example.rovinmultiplatform.network
+package com.example.core.rovinmultiplatform.network.ktor
 
-import com.example.rovinmultiplatform.core.model.JsonResponse
-import com.example.rovinmultiplatform.Platform
-import com.example.rovinmultiplatform.getPlatform
+import com.example.core.rovinmultiplatform.network.getPlatform
+import com.example.core.rovinmultiplatform.network.model.JsonResponse
+import com.example.core.rovinmultiplatform.network.model.NetworkPhoto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -27,7 +27,7 @@ class MarsRoverApi {
         }
     }
 
-    suspend fun getPhotos(sol: Int, page: Int): JsonResponse {
+    suspend fun getPhotos(sol: Int, page: Int): List<NetworkPhoto> {
         return httpClient.get {
             url {
                 protocol = URLProtocol.HTTPS
@@ -36,6 +36,6 @@ class MarsRoverApi {
                 parameters.append("sol", "$sol")
                 parameters.append("page", "$page")
             }
-        }.body<JsonResponse>()
+        }.body<JsonResponse>().photos
     }
 }

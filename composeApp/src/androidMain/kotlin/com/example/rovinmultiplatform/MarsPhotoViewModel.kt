@@ -19,7 +19,7 @@ class MarsPhotoViewModel(private val sdk: MarsRoverSDK) : ViewModel() {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true, photos = emptyList())
             try {
-                val photos = sdk.getPhotos(1000, 1).photos
+                val photos = sdk.getPhotos(1000, 1)
                 _state.value = _state.value.copy(isLoading = false, photos = photos)
             } catch (e: Exception) {
                 _state.value = _state.value.copy(isLoading = false, photos = emptyList())

@@ -1,4 +1,4 @@
-package com.example.rovinmultiplatform.network
+package com.example.core.rovinmultiplatform.network.ktor
 
 import io.ktor.client.plugins.api.createClientPlugin
 

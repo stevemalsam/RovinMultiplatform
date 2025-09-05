@@ -13,43 +13,47 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
-    listOf(
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "Shared"
-            isStatic = true
-        }
-    }
-    
-    jvm()
-    
-    sourceSets {
-        commonMain.dependencies {
-            // put your Multiplatform dependencies here
-            implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.kotlinx.datetime)
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.koin.core)
 
-            implementation(projects.core.model)
-            api(projects.core.network)
+    listOf(iosArm64(), iosSimulatorArm64())
+    jvm()
+    wasmJs { browser() }
+
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation(libs.koin.core)
+                implementation(libs.kotlin.stdlib)
+                implementation(libs.kotlinx.datetime)
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.serialization.kotlinx.json)
+
+                implementation(projects.core.model)
+            }
         }
-        androidMain.dependencies {
-            implementation(libs.ktor.client.android)
+
+        commonTest {
+            dependencies {
+                implementation(libs.kotlin.test)
+            }
         }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
+
+        androidMain {
+            dependencies {
+                implementation(libs.koin.android)
+                implementation(libs.ktor.client.android)
+            }
+        }
+
+        iosMain {
+            dependencies {
+            }
         }
     }
 }
 
 android {
-    namespace = "com.example.rovinmultiplatform.shared"
+    namespace = "com.example.rovinmultiplatform.core.network"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
