@@ -3,8 +3,11 @@ package com.example.rovinmultiplatform
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -27,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import coil3.annotation.ExperimentalCoilApi
 import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter
@@ -89,8 +93,7 @@ fun App() {
                 } else {
                     LazyColumn {
                         items(state.photos) { photo: Photo ->
-//                            Text("Photo ID: ${photo.id}, Sol: ${photo.sol}")
-                            PhotoCard(photo, Modifier.fillMaxSize())
+                            PhotoCard(photo, Modifier.padding(8.dp))
                             HorizontalDivider()
                         }
 
@@ -106,38 +109,17 @@ fun App() {
 @Composable
 fun PhotoCard(photo: Photo,
               modifier: Modifier = Modifier) {
-    Card {
+    Card(modifier = modifier) {
         NetworkImage(
             imageUrl = photo.imageURL,
-            modifier = modifier,
+            modifier = Modifier.aspectRatio(3f/2f),
             contentScale = ContentScale.Crop
         )
-//        AsyncImage(
-//            model = photo.imageURL,
-//            contentDescription = null,
-//            contentScale = ContentScale.Crop,
-//            modifier = Modifier
-//                .fillMaxWidth()
-//        )
-//            val imageModifier = Modifier.aspectRatio(3f/2f)
-//            SubcomposeAsyncImage(
-//                model = photo.imageURL,
-//                contentDescription = null,
-//                contentScale = ContentScale.FillWidth,
-//                loading = { CircularProgressIndicator() }
-//            )
-//            Column (
-//                modifier = Modifier
-//                    .background(color = backgroundDark)
-//                    .fillMaxWidth()
-//                    .padding(8.dp)
-//            ) {
-//                Text("${photo.id}",
-//                    style = MaterialTheme.typography.titleMedium)
-//                Spacer(modifier = Modifier.height(4.dp))
-//                Text("${photo.earthDate}",
-//                    style = MaterialTheme.typography.bodyMedium)
-//            }
+        Text("${photo.id}",
+            style = MaterialTheme.typography.titleMedium)
+        Spacer(modifier = Modifier.height(4.dp))
+        Text("${photo.earthDate}",
+            style = MaterialTheme.typography.bodyMedium)
     }
 }
 
