@@ -36,6 +36,10 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.koin.core)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor)
+            implementation(libs.kotlinx.datetime)
+
             implementation(projects.shared)
             implementation(projects.core.model)
             api(projects.core.network)

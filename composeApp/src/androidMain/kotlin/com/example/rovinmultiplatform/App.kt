@@ -1,11 +1,14 @@
 package com.example.rovinmultiplatform
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -22,7 +25,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
+import coil3.annotation.ExperimentalCoilApi
+import coil3.compose.AsyncImage
+import coil3.compose.AsyncImagePainter
+import coil3.compose.LocalPlatformContext
+import coil3.request.ImageRequest.Builder
+import coil3.request.crossfade
 import com.example.rovinmultiplatform.core.model.Photo
 import com.example.rovinmultiplatform.theme.AppTheme
 import kotlinx.coroutines.launch
@@ -79,12 +89,94 @@ fun App() {
                 } else {
                     LazyColumn {
                         items(state.photos) { photo: Photo ->
-                            Text("Photo ID: ${photo.id}, Sol: ${photo.sol}")
+//                            Text("Photo ID: ${photo.id}, Sol: ${photo.sol}")
+                            PhotoCard(photo, Modifier.fillMaxSize())
                             HorizontalDivider()
                         }
+
+
                     }
                 }
             }
         }
     }
+}
+
+@OptIn(ExperimentalCoilApi::class)
+@Composable
+fun PhotoCard(photo: Photo,
+              modifier: Modifier = Modifier) {
+    Card {
+        NetworkImage(
+            imageUrl = photo.imageURL,
+            modifier = modifier,
+            contentScale = ContentScale.Crop
+        )
+//        AsyncImage(
+//            model = photo.imageURL,
+//            contentDescription = null,
+//            contentScale = ContentScale.Crop,
+//            modifier = Modifier
+//                .fillMaxWidth()
+//        )
+//            val imageModifier = Modifier.aspectRatio(3f/2f)
+//            SubcomposeAsyncImage(
+//                model = photo.imageURL,
+//                contentDescription = null,
+//                contentScale = ContentScale.FillWidth,
+//                loading = { CircularProgressIndicator() }
+//            )
+//            Column (
+//                modifier = Modifier
+//                    .background(color = backgroundDark)
+//                    .fillMaxWidth()
+//                    .padding(8.dp)
+//            ) {
+//                Text("${photo.id}",
+//                    style = MaterialTheme.typography.titleMedium)
+//                Spacer(modifier = Modifier.height(4.dp))
+//                Text("${photo.earthDate}",
+//                    style = MaterialTheme.typography.bodyMedium)
+//            }
+    }
+}
+
+@Composable
+fun NetworkImage(imageUrl: String,
+                 modifier: Modifier = Modifier,
+                 contentDescription: String? = null,
+                 contentScale: ContentScale = ContentScale.Crop,
+                 alignment: Alignment = Alignment.Center,) {
+    val request = Builder(LocalPlatformContext.current).apply {
+        data(imageUrl)
+        crossfade(true)
+    }.build()
+
+    AsyncImage(
+        model = request,
+        modifier = modifier,
+        contentDescription = contentDescription,
+        contentScale = contentScale,
+        alignment = alignment,
+        onState = { state ->
+            when (state) {
+                is AsyncImagePainter.State.Loading -> {
+//                    Logger.d { "Image loading" }
+                    Log.d("NetworkImage", "Image Loading")
+                }
+
+                is AsyncImagePainter.State.Error -> {
+//                    Logger.e(state.result.throwable) { "Image loading failed" }
+                    Log.e("NetworkImage", "Image Loading Failed: $state.result.throwable")
+                }
+
+                is AsyncImagePainter.State.Success -> {
+//                    Logger.d { "Image loaded successfully" }
+                    Log.d("NetworkImage", "Image Loaded Successfully")
+                }
+
+                is AsyncImagePainter.State.Empty -> Unit
+            }
+        }
+    )
 }
