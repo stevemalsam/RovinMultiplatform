@@ -2,32 +2,50 @@ import SwiftUI
 import Shared
 
 struct ContentView: View {
-    @State private var showContent = false
+    @ObservedObject private(set) var viewModel: ViewModel
     var body: some View {
-        VStack {
-            Button("Click me!") {
-                withAnimation {
-                    showContent = !showContent
-                }
-            }
+        listView()
+    }
+    
+    private func listView() -> AnyView{
+        switch viewModel.photos {
+        case .loading:
+            return AnyView(Text("Loading..."))
+            
+        case .result(let photoList):
+            return AnyView(List(photoList) { photo in
+                RoverPicRow(photo: photo)
+            })
+        }
+    }
+}
 
-            if showContent {
-                VStack(spacing: 16) {
-                    Image(systemName: "swift")
-                        .font(.system(size: 200))
-                        .foregroundColor(.accentColor)
-                    Text("SwiftUI: \(Greeting().greet())")
+extension ContentView {
+    enum LoadablePhotos {
+        case loading
+        case result([ModelPhoto])
+    }
+    
+    @MainActor
+    class ViewModel: ObservableObject {
+        @Published var photos = LoadablePhotos.loading
+        
+        let helper: KoinHelper = KoinHelper()
+        
+        init() {
+            self.loadPhotos(sol: 1, page: 1)
+        }
+        
+        private func loadPhotos(sol: Int, page: Int) {
+            Task {
+                do {
+                    self.photos = .loading
+                    let photos = try await helper.getPhotos(sol: Int32(sol), page: Int32(page))
+                    self.photos = .result(photos)
                 }
-                .transition(.move(edge: .top).combined(with: .opacity))
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .padding()
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+extension ModelPhoto: Identifiable {}

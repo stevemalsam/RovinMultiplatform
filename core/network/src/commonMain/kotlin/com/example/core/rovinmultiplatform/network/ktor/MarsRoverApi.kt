@@ -12,7 +12,7 @@ import io.ktor.http.path
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-private const val BASE_URL = "api.nasa.gov/mars-photos/api/v1/"
+private const val BASE_URL = "api.nasa.gov"
 
 class MarsRoverApi {
     private val httpClient = HttpClient {
@@ -32,7 +32,7 @@ class MarsRoverApi {
             url {
                 protocol = URLProtocol.HTTPS
                 host = BASE_URL
-                path("rovers/curiosity/photos")
+                path("mars-photos/api/v1/rovers/curiosity/photos")
                 parameters.append("sol", "$sol")
                 parameters.append("page", "$page")
             }

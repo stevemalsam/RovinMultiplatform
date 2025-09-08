@@ -31,16 +31,12 @@ kotlin {
             // put your Multiplatform dependencies here
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.datetime)
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.koin.core)
 
-            implementation(projects.core.model)
+            api(projects.core.model)
             api(projects.core.network)
         }
         androidMain.dependencies {
-            implementation(libs.ktor.client.android)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

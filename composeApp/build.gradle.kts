@@ -40,6 +40,10 @@ kotlin {
             implementation(projects.core.model)
             api(projects.core.network)
         }
+
+        iosMain.dependencies {
+        }
+
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
